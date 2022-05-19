@@ -14,6 +14,16 @@ namespace MoodAnalyse
             HappySadmood mood = new HappySadmood();
             string result = mood.Analyse("I am in sad Mood");
             Console.WriteLine(result);
+
+            refractor1 A2 = new();
+            string result2 = A2.Analyse();
+            Console.WriteLine("Using the Default Constructor here and Mood is :" + result2);
+
+
+            refractor1 A3 = new("I am in Happy Mood");
+            string result3 = A3.Analyse();
+            Console.WriteLine("Using the Parameterized Constructor here and Mood is :" + result3);
+
         }
     }
 }
