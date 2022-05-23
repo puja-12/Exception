@@ -11,7 +11,8 @@ namespace MoodAnalyse
     {
         public enum ExpType
         {
-            Empty_Message, Null_Message
+            Empty_Message, Null_Message,
+            NO_SUCH_CLASS, NO_SUCH_METHOD
         }
         public readonly ExpType type;
 

@@ -9,6 +9,16 @@ using System.Threading.Tasks;
 namespace MoodAnalyse.Tests
 {
     [TestClass()]
+    public class MoodCustomExceptionTests
+    {
+        [TestMethod()]
+        public void MoodCustomExceptionTest()
+        {
+            Assert.Fail();
+        }
+    }
+
+    [TestClass()]
     public class MoodAnalysisExceptionTests
     {
         [TestMethod()]

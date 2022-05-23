@@ -13,7 +13,7 @@ namespace MoodAnalyse
         {
             while (true)
             {
-                Console.WriteLine("Please choose the option :\n1)Happy or SAD Mood\n2)Using the Default and Parametterized Constructor\n3)Exception\n4)Custom Exception");
+                Console.WriteLine("Please choose the option :\n1)Happy or SAD Mood\n2)Using the Default and Parametterized Constructor\n3)Exception\n4)Custom Exception\n5)Reflector with default constructor");
                 int option = Convert.ToInt16(Console.ReadLine());
                 switch (option)
                 {
@@ -40,6 +40,17 @@ namespace MoodAnalyse
                         MoodAnalysisException A5 = new();
                         string result5 = A5.MMoodAnalysisExceptionMethod(null);
                         Console.WriteLine(result5);
+                        break;
+                    case 5:
+                        object result6 = MoodAnalyzerFactory.CreateMoodAnalyzer("MoodAnalyzer.MoodAnalysisException", "64567_MoodAnalysisException");
+                        Console.WriteLine(result6);
+
+                        // foreach (object o in result6.ToString())
+                        // {
+                        //   Console.WriteLine(o.GetType);
+                        //}
+
+                        // object expected = new MoodAnalysisException();
                         break;
                 }
             }
