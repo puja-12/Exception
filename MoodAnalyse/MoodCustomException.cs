@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace MoodAnalyse
 {
-
     public class MoodCustomException : Exception
     {
         public enum ExpType

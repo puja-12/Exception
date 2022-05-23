@@ -13,7 +13,7 @@ namespace MoodAnalyse
         {
             while (true)
             {
-                Console.WriteLine("Please choose the option :\n1)Happy or SAD Mood\n2)Using the Default and Parametterized Constructor\n3)Exception\n4)Custom Exception\n5)Reflector with default constructor");
+                Console.WriteLine("Please choose the option :\n1)Happy or SAD Mood\n2)Using the Default and Parametterized Constructor\n3)Exception\n4)Custom Exception\n5)Reflector with default constructor\n)6Reflector using Parameterised constructor");
                 int option = Convert.ToInt16(Console.ReadLine());
                 switch (option)
                 {
@@ -51,6 +51,9 @@ namespace MoodAnalyse
                         //}
 
                         // object expected = new MoodAnalysisException();
+                        break;
+                        object result7 = MoodAnalyzerParameterizedConstructor.UsingParameterizedConstructor("MoodAnalyzer.AnalyseMood1", "AnalyseMood1", "HAPPY");
+                        Console.WriteLine(result7);
                         break;
                 }
             }
