@@ -94,5 +94,26 @@ namespace MoodAnalyse.Tests
                     Assert.AreEqual(expected, ex.Message);
                 }
             }
+        [TestMethod()]
+        public void UsingInvokeMethod1()
+        {
+            object Expected = new AnalyseMood1("Happy");
+            string result8 = MoodAnalyzerFactory.InvokeAnalyseMood("Happy", "AnalyseMoodMethod");
+            Expected.Equals(result8);
+        }
+
+        [TestMethod]
+        public void UsingInvokeMethod2()
+        {
+            string expected = "Method is Not Found";
+            try
+            {
+                string result8 = MoodAnalyzerFactory.InvokeAnalyseMood("Happy", "123_AnalyseMoodMethod");
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
     }
+}
