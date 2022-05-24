@@ -115,5 +115,43 @@ namespace MoodAnalyse.Tests
                 Assert.AreEqual(expected, ex.Message);
             }
         }
-    }
+        [TestMethod()]
+        public void SetField1()
+        {
+            object Expected = new AnalyseMood1("Happy");
+            string result9 = MoodAnalyzerFactory.SetField("Happy", "message2");
+            Expected.Equals(result9);
+        }
+
+        
+        [TestMethod]
+        public void SetField2()
+        {
+            string expected = "Field is Not Found";
+            try
+            {
+                string result9 = MoodAnalyzerFactory.SetField("Happy", "123_message2");
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+
+     
+        [TestMethod]
+        public void SetField3()
+        {
+            string expected = "Message should not be null";
+            try
+            {
+                string result9 = MoodAnalyzerFactory.SetField(null, "message2");
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+
+            }
+        }
+        }
 }

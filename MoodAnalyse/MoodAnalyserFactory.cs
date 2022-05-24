@@ -8,101 +8,132 @@ using System.Threading.Tasks;
 
 namespace MoodAnalyse
 {
-   
-        public class MoodAnalyzerFactory
+    public class MoodAnalyzerFactory
+    {
+        public static object CreateMoodAnalyzer(string ClassName, string ConstructorName)
         {
-            public static object CreateMoodAnalyzer(string ClassName, string ConstructorName)
-            {
 
-                string pattern = @"." + ConstructorName + "$";
-                Match result = Regex.Match(ClassName, pattern);
-                if (result.Success)
+            string pattern = @"." + ConstructorName + "$";
+            Match result = Regex.Match(ClassName, pattern);
+            if (result.Success)
+            {
+                try
                 {
-                    try
-                    {
-                        Assembly executing = Assembly.GetExecutingAssembly();
-                        Type moodAnalyseType = executing.GetType(ClassName);
-                        return Activator.CreateInstance(moodAnalyseType);
-                    }
-                    catch (ArgumentNullException)
-                    {
-                        throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_CLASS, "Class not found");
-                    }
+                    Assembly executing = Assembly.GetExecutingAssembly();
+                    Type moodAnalyseType = executing.GetType(ClassName);
+                    return Activator.CreateInstance(moodAnalyseType);
+                }
+                catch (ArgumentNullException)
+                {
+                    throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_CLASS, "Class not found");
+                }
+            }
+            else
+            {
+                throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_METHOD, "Constructor is not found");
+            }
+
+        }
+
+
+        //uc6 Using Reflections to invoke Method
+        public static string InvokeAnalyseMood(string message, string methodName)
+        {
+            try
+            {
+                Type type = Type.GetType("MoodAnalyzer.AnalyseMood1");
+                object moodAnalyseObject = MoodAnalyzerParameterizedConstructor.UsingParameterizedConstructor("MoodAnalyzer.AnalyseMood1", "AnalyseMood1", message);
+                MethodInfo analyseMoodInfo = type.GetMethod(methodName);
+                object mood = analyseMoodInfo.Invoke(moodAnalyseObject, null);
+                return mood.ToString();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_METHOD, "Method is Not Found");
+            }
+        }
+
+
+        //using Reflections to change the mood dynamically
+        public static string SetField(string message, string fieldName)
+        {
+            try
+            {
+                AnalyseMood1 analyseMood = new();
+                Type type = typeof(AnalyseMood1);
+                FieldInfo field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                if (message == null)
+                {
+                    throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_FIELD, "Message should not be null");
+                }
+                field.SetValue(analyseMood, message);
+                return analyseMood.message2;
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_FIELD, "Field is Not Found");
+            }
+        }
+
+    }
+
+    public class AnalyseMood1
+    {
+        public AnalyseMood1()
+        {
+
+        }
+
+        public string message2 = "HAPPY";
+        public AnalyseMood1(string Message)
+        {
+            this.message2 = Message;
+        }
+        public string AnalyseMoodMethod()
+        {
+            string message1 = "SAD";
+            if (message2.ToUpper().Contains(message1.ToUpper()))
+            {
+                return message1;
+            }
+            else
+            {
+                return "HAPPY";
+            }
+
+        }
+    }
+
+
+
+    public class MoodAnalyzerParameterizedConstructor
+    {
+        public static object UsingParameterizedConstructor(string className, string constructorName, string message)
+        {
+            Type type = typeof(AnalyseMood1);
+            if (type.Name.Equals(className) || type.FullName.Equals(className))
+            {
+                if (type.Name.Equals(constructorName))
+                {
+                    ConstructorInfo cnstr = type.GetConstructor(new[] { typeof(string) });
+                    object instance = cnstr.Invoke(new object[] { message });
+                    return instance;
                 }
                 else
                 {
                     throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_METHOD, "Constructor is not found");
                 }
-
             }
-
-
-            //uc6 Using Reflections to invoke Method
-            public static string InvokeAnalyseMood(string message, string methodName)
+            else
             {
-                try
-                {
-                    Type type = Type.GetType("MoodAnalyzer.AnalyseMood1");
-                    object moodAnalyseObject = MoodAnalyzerParameterizedConstructor.UsingParameterizedConstructor("MoodAnalyzer.AnalyseMood1", "AnalyseMood1", message);
-                    MethodInfo analyseMoodInfo = type.GetMethod(methodName);
-                    object mood = analyseMoodInfo.Invoke(moodAnalyseObject, null);
-                    return mood.ToString();
-                }
-                catch (NullReferenceException)
-                {
-                    throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_METHOD, "Method is Not Found");
-                }
-            }
-
-        }
-
-        public class AnalyseMood1
-        {
-            public string message2;
-            public AnalyseMood1(string Message)
-            {
-                this.message2 = Message;
-            }
-            public string AnalyseMoodMethod()
-            {
-                string message1 = "SAD";
-                if (message2.ToUpper().Contains(message1.ToUpper()))
-                {
-                    return message1;
-                }
-                else
-                {
-                    return "HAPPY";
-                }
-
+                throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_CLASS, "Class not found");
             }
         }
-
-
-
-        public class MoodAnalyzerParameterizedConstructor
-        {
-            public static object UsingParameterizedConstructor(string className, string constructorName, string message)
-            {
-                Type type = typeof(AnalyseMood1);
-                if (type.Name.Equals(className) || type.FullName.Equals(className))
-                {
-                    if (type.Name.Equals(constructorName))
-                    {
-                        ConstructorInfo cnstr = type.GetConstructor(new[] { typeof(string) });
-                        object instance = cnstr.Invoke(new object[] { message });
-                        return instance;
-                    }
-                    else
-                    {
-                        throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_METHOD, "Constructor is not found");
-                    }
-                }
-                else
-                {
-                    throw new MoodCustomException(MoodCustomException.ExpType.NO_SUCH_CLASS, "Class not found");
-                }
-            }
-        }
-
     }
+}
+
+
+
+
+
+

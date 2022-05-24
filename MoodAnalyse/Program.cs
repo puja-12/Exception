@@ -13,7 +13,7 @@ namespace MoodAnalyse
         {
             while (true)
             {
-                Console.WriteLine("Please choose the option :\n1)Happy or SAD Mood\n2)Using the Default and Parametterized Constructor\n3)Exception\n4)Custom Exception\n5)Reflector with default constructor\n)6Reflector using Parameterised constructor\n7)Reflection using invoke method");
+                Console.WriteLine("Please choose the option :\n1)Happy or SAD Mood\n2)Using the Default and Parametterized Constructor\n3)Exception\n4)Custom Exception\n5)Reflector with default constructor\n)6Reflector using Parameterised constructor\n7)Reflection using invoke method\n)8Reflections to change mood Dynamically");
                 int option = Convert.ToInt16(Console.ReadLine());
                 switch (option)
                 {
@@ -59,6 +59,10 @@ namespace MoodAnalyse
                     case 7:
                         string result8 = MoodAnalyzerFactory.InvokeAnalyseMood("Happy", "AnalyseMoodMethod");
                         Console.WriteLine(result8);
+                        break;
+                    case 8:
+                        string result9 = MoodAnalyzerFactory.SetField(null, "456_message2");
+                        Console.WriteLine(result9);
                         break;
                 }
             }
